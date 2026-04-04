@@ -1,20 +1,20 @@
-"use strict";
+const display = document.getElementById('display') as HTMLInputElement | null;
 
-const display = document.getElementById('display');
-const botoes = document.querySelectorAll('button');
+const botoes: NodeListOf<HTMLButtonElement> = document.querySelectorAll('button');
 
-let expressao = '';
-let resultado = '';
+let expressao: string = '';
+let resultado: string | number = '';
+
 /**
  * @param valor
  */
-function actualiza_display(valor) {
+function actualiza_display(valor: string | number): void {
     if (display) {
         display.value = valor.toString();
     }
 }
 
-function calcula_resultado() {
+function calcula_resultado(): void {
     try {
         const expressaoFormatada = expressao
             .replace(/🞨/g, '*')
@@ -23,21 +23,23 @@ function calcula_resultado() {
             .replace(/%/g, '/100');
 
         const conta = eval(expressaoFormatada);
+        
         resultado = conta;
         actualiza_display(resultado);
 
         expressao = resultado.toString();
-    }
-    catch (error) {
+
+    } catch (error) {
         actualiza_display('Operação inválida!');
         expressao = '';
     }
 }
 
-botoes.forEach((botao) => {
+botoes.forEach((botao: HTMLButtonElement) => {
     botao.addEventListener('click', () => {
-        
-        const valor = botao.textContent ?? '';
+
+        const valor: string = botao.textContent ?? '';
+
         switch (botao.id) {
             case 'limpar':
                 expressao = '';
